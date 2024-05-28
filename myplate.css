@@ -1,0 +1,111 @@
+
+
+#plate {
+    background-image: url('./pictures/table.png');
+    background-repeat: no-repeat; /* מונע השקעת התמונה */
+    background-size: cover; /* מתאים את התמונה לגודל החלון */
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* מיושר למרכז את התמונות */
+}
+
+#imageContainer {
+    display: flex;
+    flex-wrap: wrap; /* יעטוף את התמונות כאשר הן ימלאו את השורה */
+    justify-content: center; /* מיושר למרכז את התמונות ברוחב */
+}
+
+#imageContainer img {
+    width: calc(100% / 6); /* כל תמונה תיקח 1/8 מהרוחב של האב אלמנט */
+    height:150px; /* הגובה יתקבע באופן אוטומטי כך שהתמונות ישמרו ביחסי גובה */
+}
+#h1{
+    color: brown;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-size: 50px;
+}
+
+/* .pink-button {
+    background-color:  brown;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+} */
+#plateImage {
+    width: 700px; /* רוחב התמונה */
+    height: auto; /* גובה התמונה מתאים לרוחב */
+}
+
+.pink-button:hover {
+    background-color: white;
+    color: brown;
+}
+#p{
+    color: brown;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: x-large;
+
+}
+#customAlert {
+    height: 50px;
+    font-size: 50px; /* גודל גופן */
+    color: rgb(255, 0, 191); /* צבע טקסט */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: non; /* צבע רקע */
+    padding: 20px; /* מרווח פנים */
+    width: 100%; /* רוחב */
+    text-align: center; /* יישור טקסט למרכז */
+    margin: 0 auto; /* מרכז האלמנט במרכז העמוד */
+}
+.row {
+    display: flex;
+    justify-content: center; /* מיקוד אופקי של הפריטים בתוך ה- container */
+    align-items: center;
+}
+
+.pink-button {
+    background-color:  brown;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 30px;
+    /* margin-right: 100px; */
+    
+}
+.more{
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+.plus{
+    margin-right: 10px; /* יציבה מימין של כפתור הוספת הצלחת */
+
+}
+.centered-text {
+    text-align: center; /* מיקוד הטקסט באמצע */
+    flex: 1;/* מיקוד הטקסט באמצע */
+}
+.button-div{
+    text-align: right; /* ממרכז את הכפתור בתוך הקונטיינר */
+}
+
+  .chetz {
+    display: flex; /* כבר הוגדר בקוד הקודם */
+    align-items: center; /* ממרכז את התמונה והטקסט באופן אנכי */
+    cursor: pointer; /* מוסיף סמן יד לכל האלמנט כאשר מרחפים מעליו */
+    justify-content: flex-end; /* ממרכז את התוכן לקצה הימני של האלמנט האב */
+    width: 100%; /* מאפשר לאלמנט למלא את כל הרוחב של האב */
+  }
+  
+  .chetz p {
+    margin: 0; /* אפס רווחים ברירת מחדל מהפסקה אם יש צורך */
+  }
+  
+  
+
