@@ -1,0 +1,85 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הצלחת שלי</title>
+</head>
+
+<body>
+    <script src="./plate.js"></script>
+    <h1>מלא את הצלחת שלך</h1>>
+    <div id="plate" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="./pictures/plate.png" alt="צלחת">
+    </div>
+
+    <div id="breadSlice" draggable="true" ondragstart="drag(event)">
+        <img src="./pictures/bread.png" alt="פרוסת לחם">
+    </div>
+
+    <div id="breadSlice" draggable="true" ondragstart="drag(event)">
+            <img src="./pictures/b.png" alt="פרוסת לחם">
+        </div>
+
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הצלחת שלי</title>
+</head>
+
+<body>
+    <h1>מלא את הצלחת שלך</h1>
+
+    <div id="plate" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <img src="./pictures/plate.png" alt="צלחת">
+    </div>
+
+    <!-- <div id="breadSlice" draggable="true" ondragstart="drag(event)">
+        <img src="./pictures/bread.png" alt="פרוסת לחם">
+    </div> -->
+    <div id="breadSlice" onclick="drop(event)">
+            <img src="./pictures/bread.png" alt="פרוסת לחם">
+        </div>
+
+    
+
+    <script>
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData('text/plain', event.target.id);
+        }
+
+        // function drop(event) {
+        //     event.preventDefault();
+        //     const data = event.dataTransfer.getData('text/plain');
+        //     const draggedElement = document.getElementById(data);
+        //     event.target.appendChild(draggedElement);
+        // }
+        function drop(event) {
+    event.preventDefault();
+    const data = event.dataTransfer.getData('text/plain');
+    const draggedElement = document.getElementById(data);
+    const plate = document.getElementById('plate');
+    
+    // מוסיפים את האלמנט לצלחת
+    plate.appendChild(draggedElement);
+    
+    // מעלים את התמונה של הלחם מהמקום המקורי שלה
+    draggedElement.style.display = 'none';
+}
+
+    </script>
+</body>
+
+</html>

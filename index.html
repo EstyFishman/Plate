@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico">
+
+    <title>ארוחת הבוקר שלי</title>
+    <link rel="stylesheet" href="myplate.css">
+</head>
+
+<body>
+    <div class="button-div">
+        <button class="pink-button" onclick="morePlate()">צלחת נוספת</button>
+    </div>
+    <div id="customAlert"></div>
+
+    <h1 id="h1">🥪🥣 הרכב/י את ארוחת הבוקר שלך</h1>
+    <div id="plate">
+        <img src="./pictures/plate.png" alt="צלחת" id="plateImage">
+    </div>
+    <div class="chetz" onclick="displayList()" draggable="true">
+        <p id="p">הצג עוד מאכלים ➕</p>
+        <!-- <img src="./pictures/chetz.png" alt="חץ "> -->
+
+    </div>
+    <div id="imageContainer"></div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            displayList();
+            getPlateRect();
+        });
+        let pachmemot = 0;
+        let chelbonim = 0;
+        let fruits = 0;
+        let vegetables = 0;
+
+        let ingredients = 0;
+        let chosen = [];
+        let pach = ["pictures/roll.png", "pictures/pita.png", "pictures/black.png", "pictures/pasta.png", "pictures/potato.png", "pictures/pr.png", "pictures/chips.png"];
+        let chel = ["pictures/avukado.png", "pictures/tchina.png", "pictures/choomoos.png", "pictures/egg.png", "pictures/chavita.png", "pictures/cheese.png", "pictures/kotege.png", "pictures/yople.png", "pictures/pastrama.png", "pictures/tuna.png", "pictures/yello.png"]
+        let frui = ["pictures/apple.png", "pictures/banana.png", "pictures/tamar.png", "pictures/olive.png","pictures/carrot.png", "pictures/gamba.png", "pictures/tomato.png", "pictures/veg.png","pictures/c.png"];
+        let vege = [];
+
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        // function drop(event) {
+        //     event.preventDefault();
+        //     const data = event.dataTransfer.getData('text/plain');
+        //     const draggedElement = document.getElementById(data);
+        //     event.target.appendChild(draggedElement);
+        // }
+
+        function morePlate() {
+            location.reload();
+        }
+
+        topsArray = {};
+        leftsArray = {};
+        let c = 0;
+        let left = 0;
+        let width = 0;
+        let topp = 0;
+        let height = 0;
+        let plateCenterY = 0;
+        function getPlateRect() {
+            const plate = document.getElementById('plate');
+            const plateRect = plate.getBoundingClientRect();
+            width = plateRect.width;
+            left = plateRect.left;
+            topp = plateRect.top;
+            height = plateRect.height;
+            plateCenterY = topp + height / 2;
+        }
+
+        function toggleImage(id, isItPachmema, isItChelbon, isItFruit, isItVegetable) {
+            c = 0;
+            const component = document.getElementById(id);
+            const plate = document.getElementById('plate');
+            if (ingredients > 3) {
+                const audio = new Audio("./pictures/LOGOFF.WAV");
+                audio.play();
+                alert("הארוחה שלך מאוזנת ובריאה. בתאבון!!");
+                return;
+            }
+            const plateRect = plate.getBoundingClientRect();//מקבל את גבולות הצלחת
+            const plateCenterX = plateRect.left + plateRect.width / 2;//מחשב את מרכז הצלחת
+            const breadWidth = component.offsetWidth;//מחשב את גודל התמונה
+            const breadHeight = component.offsetHeight;
+            const imageHeight = breadHeight + 1;
+            let nextImageLeft = 0;
+            let nextImageTop = 0;
+            if (ingredients == 0) {
+                nextImageLeft = width / 3 + left;
+                nextImageTop = plateCenterY - breadHeight / 2;
+                topsArray[component.src] = nextImageTop;
+                console.log(topsArray[component.src]);
+                leftsArray[component.src] = nextImageLeft;
+            }
+            if (ingredients == 1) {
+                nextImageLeft = width / 2 + left;
+                nextImageTop = plateCenterY;
+                topsArray[component.src] = nextImageTop;
+                console.log(topsArray[component.src]);
+                leftsArray[component.src] = nextImageLeft;
+            }
+            if (ingredients == 2) {
+                nextImageLeft = width / 2 + left;
+                nextImageTop = plateCenterY - breadHeight;
+                topsArray[component.src] = nextImageTop;
+                console.log(topsArray[component.src]);
+                leftsArray[component.src] = nextImageLeft;
+            }
+
+            if (component.style.position === 'absolute') {
+                ingredients--;
+
+                if (isPachmema(component.src) == 1) {
+                    pachmemot--;
+                }
+                if (isCelbon(component.src) == 1) {
+                    chelbonim--;
+                }
+                if (isFruit(component.src) == 1) {
+                    fruits--;
+                }
+                if (isVegetable(component.src) == 1) {
+                    vegetables--;
+                    console.log(vegetables)
+                }
+                if (ingredients > 3) {
+                    const audio = new Audio("./pictures/LOGOFF.WAV");
+                    audio.play();
+                    alert("הארוחה שלך מאוזנת. בתאבון!!");
+                    return;
+                }
+                component.style.position = 'static';
+            } else {
+                ingredients++;
+                if (ingredients > 3) {
+                    const audio = new Audio("./pictures/LOGOFF.WAV");
+                    audio.play();
+                    showCustomAlert("!!הארוחה שלך מאוזנת ובריאה, בתאבון");
+                    return;
+                }
+                if (isItPachmema == 1) {
+                    if (pachmemot > 0) {
+                        const audio = new Audio("./pictures/Orchestr.wav");
+                        audio.play();
+                        showCustomAlert("❗❕אי אפשר לבחור יותר מפחמימה אחת");
+                        ingredients--;
+                        return;
+                    }
+                    pachmemot++;
+                }
+                if (isItChelbon == 1) {
+                    if (chelbonim > 0) {
+                        const audio = new Audio("./pictures/Orchestr.wav");
+                        audio.play();
+                        showCustomAlert("❗❕אי אפשר לבחור יותר מחלבון אחד");
+                        ingredients--;
+                        return;
+                    }
+                    chelbonim++;
+                }
+                if (isItFruit == 1) {
+                    if (fruits > 0) {
+                        const audio = new Audio("./pictures/Orchestr.wav");
+                        audio.play();
+                        showCustomAlert("❗❕אי אפשר לבחור יותר מפרי/ירק אחד");
+                        ingredients--;
+                        return;
+                    }
+                    fruits++;
+                }
+                if (isItVegetable == 1) {
+                    if (vegetables > 0) {
+
+                        const audio = new Audio("./pictures/Orchestr.wav");
+                        audio.play();
+                        showCustomAlert("❗❕אי אפשר לבחור יותר מירק אחד");
+                        ingredients--;
+                        return;
+                    }
+                    vegetables++;
+                    console.log(vegetables);
+                }
+                component.style.position = 'absolute';
+                component.style.left = `${nextImageLeft}px`;
+                component.style.top = `${nextImageTop}px`;
+            }
+            c = 1;
+        }
+
+        function addImageToPlate(src, w, h, i) {
+            const plate = document.getElementById('plate');
+            const img = document.createElement('img');
+            img.src = src;
+            img.style.position = 'absolute';
+            img.width = w;
+            img.height = h;
+            const plateRect = plate.getBoundingClientRect();
+            const plateCenterX = plateRect.left + plateRect.width / 2;
+            const imgWidth = img.width;
+            const imgHeight = img.height;
+            let nextImageLeft2 = 0;
+            let nextImageTop2 = 0;
+            img.style.position = 'absolute';
+            img.style.left = `${leftsArray[src]}px`;
+            img.style.top = `${topsArray[src]}px`;
+            plate.appendChild(img);
+        }
+        let add = 0;
+        const lists = {
+            'case1': ["./pictures/banana.png", "./pictures/chips.png", "./pictures/chavita.png",
+                "./pictures/choomoos.png", "./pictures/egg.png", "./pictures/gamba.png"],
+            'case2': ["./pictures/pasta.png", "./pictures/pastrama.png", "./pictures/pr.png",
+                "./pictures/avukado.png", "./pictures/tomato.png", "./pictures/tuna.png"],
+            'case3': ["./pictures/c.png", "./pictures/carrot.png", "./pictures/cheese.png",
+                "./pictures/pita.png", "./pictures/potato.png", "./pictures/pr.png"],
+            'case4': ["./pictures/tamar.png", "./pictures/tchina.png", "./pictures/olive.png",
+                "./pictures/veg.png", "./pictures/yello.png", "./pictures/yople.png"],
+            'case5': ["pictures/apple.png", "pictures/kotege.png", "pictures/black.png", "pictures/roll.png"]
+        };
+
+        function displayList() {
+            add++;
+            switch (add) {
+                case 1:
+                    renderList(lists.case1);
+                    break;
+                case 2:
+                    renderList(lists.case2);
+                    break;
+                case 3:
+                    renderList(lists.case3);
+                    break;
+                case 4:
+                    renderList(lists.case4);
+                    break;
+                case 5:
+                    renderList(lists.case5);
+                    break;
+                default:
+                    add = 0;
+                    displayList();
+            }
+        }
+        function isPachmema(src) {
+            for (let i = 0; i < pach.length; i++) {
+                if (src.includes(pach[i])) {
+                    return 1;
+                }
+            }
+            return 0;
+        }
+        function isCelbon(src) {
+            for (let i = 0; i < chel.length; i++) {
+                if (src.includes(chel[i])) {
+                    return 1;
+                }
+            }
+            return 0;
+        }
+        function isFruit(src) {
+            for (let i = 0; i < frui.length; i++) {
+                if (src.includes(frui[i])) {
+                    return 1;
+                }
+            }
+            return 0;
+        }
+        function isVegetable(src) {
+            for (let i = 0; i < vege.length; i++) {
+                if (src.includes(vege[i])) {
+                    return 1;
+                }
+            }
+            return 0;
+        }
+
+        function showCustomAlert(message) {
+            const customAlert = document.getElementById('customAlert');
+            customAlert.innerText = message;
+            customAlert.style.display = 'block'; // הצגת ההודעה
+        }
+
+        function renderList(list) {
+            for (let i = 0; i < chosen.length; i++) {
+                addImageToPlate(chosen[i], 202, 171, i);
+            }
+            const container = document.getElementById('imageContainer');
+            container.innerHTML = '';
+            list.forEach((image, index) => {
+                const img = document.createElement('img');
+                img.src = image;
+                img.id = 'image' + index;
+                img.width = 250;
+                img.height = 150;
+                img.addEventListener('click', function () {
+                    pachmema = isPachmema(img.src);
+                    chelbon = isCelbon(img.src);
+                    fruit = isFruit(img.src);
+                    vegetable = isVegetable(img.src);
+
+                    const audio = new Audio("./pictures/CHIMES.WAV");
+                    audio.play();
+                    toggleImage(img.id, pachmema, chelbon, fruit, vegetable);
+                    if (c == 1) {
+                        chosen.push(img.src);
+                    }
+                });
+                container.appendChild(img);
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>
