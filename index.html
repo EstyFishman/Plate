@@ -308,9 +308,12 @@
                     chelbon = isCelbon(img.src);
                     fruit = isFruit(img.src);
                     vegetable = isVegetable(img.src);
-
                     const audio = new Audio("./pictures/CHIMES.WAV");
-                    audio.play();
+                     if (img.src.endsWith("banana.png")) {
+                        console.log("banana");
+                        audio.play();
+                    }
+                   
                     toggleImage(img.id, pachmema, chelbon, fruit, vegetable);
                     if (c == 1) {
                         chosen.push(img.src);
